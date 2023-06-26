@@ -90,6 +90,13 @@ def main():
         st.session_state.chat_history = None
 
     st.header("Chat with multiple PDFs :books:")
+
+    # TODO chat history 는 입력칸 위에서 보여 주는게 좋을 것 같다
+    # Display previous chat history
+    if 'displayed_chat_history' in st.session_state:
+        for message in st.session_state.displayed_chat_history:
+            st.write(message, unsafe_allow_html=True)
+
     user_question = st.text_input("Ask a question about your documents:")
     
     # Initialize the 'previous_question' in the session state if it doesn't exist
@@ -101,12 +108,8 @@ def main():
         handle_userinput(user_question)
         # Save the new question as the 'previous_question'
         st.session_state.previous_question = user_question
-    
-    # Display previous chat history
-    if 'displayed_chat_history' in st.session_state:
-        for message in st.session_state.displayed_chat_history:
-            st.write(message, unsafe_allow_html=True)
 
+    # TODO function 따로 빼도 될 것 같다
     # Display download button if chat history exists
     if st.session_state.chat_history is not None and len(st.session_state.chat_history) > 0:
         st.download_button(
